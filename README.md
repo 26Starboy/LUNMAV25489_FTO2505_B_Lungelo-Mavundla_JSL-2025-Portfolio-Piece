@@ -23,6 +23,17 @@ The app allows users to:
 
 ---
 
+### 🔗links for referencing
+- https://roadmap.sh/
+- https://www.w3schools.com/css/css_rwd_mediaqueries.asp
+- https://www.freecodecamp.org/news/dom-manipulation-in-javascript/
+- https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide
+- https://www.geeksforgeeks.org/javascript/javascript-fetch-method/
+- https://www.javascripttutorial.net/web-apis/javascript-drag-and-drop/
+- https://codepen.io/Umer_Farooq/pen/eYJgKGN
+- https://www.freecodecamp.org/news/use-local-storage-in-modern-applications/
+
+
 ## Features
 
 ### Task Management
