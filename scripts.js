@@ -36,8 +36,14 @@ function initializeBoard() {
   renderTasks();
   setupDragAndDrop();
 
+  // Initialize theme explicitly
   const savedTheme = localStorage.getItem("kanban-theme");
-  if (savedTheme === "dark") toggleTheme();
+  const body = document.body;
+  if (savedTheme === "dark") {
+    body.classList.add("dark-theme");
+  } else {
+    body.classList.remove("dark-theme"); // Ensure light mode by default
+  }
 }
 
 // ========================
