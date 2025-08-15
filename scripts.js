@@ -27,6 +27,7 @@ const editTaskDueDate = document.getElementById("edit-task-due-date");
 const editTaskStatus = document.getElementById("edit-task-status");
 
 let currentEditTaskId = null;
+let draggedTaskId = null;
 
 // ========================
 // Fetch Tasks from API
@@ -50,13 +51,20 @@ function renderTasks(tasks) {
   doingContainer.innerHTML = "";
   doneContainer.innerHTML = "";
 
-  // Filter and display tasks
   tasks.forEach(task => {
     const taskDiv = document.createElement("div");
     taskDiv.className = "task-div";
     taskDiv.innerText = task.title;
+    taskDiv.draggable = true;
+    taskDiv.dataset.id = task.id;
+
+    // Click to open edit modal
     taskDiv.onclick = () => openEditTaskModal(task);
 
+    // Drag events
+    taskDiv.addEventListener("dragstart", dragStart);
+
+    // Append to correct column
     switch (task.status) {
       case "todo":
         todoContainer.appendChild(taskDiv);
@@ -74,6 +82,40 @@ function renderTasks(tasks) {
   document.getElementById("toDoText").innerText = `TODO (${tasks.filter(t => t.status === "todo").length})`;
   document.getElementById("doingText").innerText = `DOING (${tasks.filter(t => t.status === "doing").length})`;
   document.getElementById("doneText").innerText = `DONE (${tasks.filter(t => t.status === "done").length})`;
+
+  // Setup drop zones
+  [todoContainer, doingContainer, doneContainer].forEach(container => {
+    container.addEventListener("dragover", dragOver);
+    container.addEventListener("drop", drop);
+  });
+}
+
+// ========================
+// Drag & Drop Handlers
+// ========================
+function dragStart(e) {
+  draggedTaskId = e.target.dataset.id;
+}
+
+function dragOver(e) {
+  e.preventDefault(); // Needed to allow drop
+}
+
+async function drop(e) {
+  const newStatus = e.currentTarget.dataset.status;
+  if (!draggedTaskId || !newStatus) return;
+
+  try {
+    await fetch(`${API_URL}/${draggedTaskId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: newStatus })
+    });
+    draggedTaskId = null;
+    fetchTasksFromAPI();
+  } catch (error) {
+    console.error("Error updating task status:", error);
+  }
 }
 
 // ========================
