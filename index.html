@@ -1,96 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <!-- Declare the document type as HTML5 -->
+<html lang="en"> <!-- Set language to English -->
+
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;1,400&display=swap"
-      rel="stylesheet"
-    />
+    <meta charset="UTF-8" /> <!-- Character encoding set to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Make page responsive -->
+
+    <!-- Import Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+    <!-- Link custom CSS -->
     <link rel="stylesheet" href="./styles.css" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="./assets/favicon.svg"
-    />
+
+    <!-- Set favicon for browser tab -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon.svg" />
+
+    <!-- Flatpickr CSS for datepicker -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Flatpickr JS for datepicker functionality -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Link main JS script, deferred so it loads after HTML -->
     <script defer src="./scripts.js"></script>
-    <title>Kanban Task Management</title>
+
+    <title>Kanban Task Management</title> <!-- Page title -->
   </head>
 
   <body>
-    <!-- Navigation Sidebar -->
+    <!-- Sidebar navigation -->
     <nav class="side-bar" id="side-bar-div">
       <div id="side-logo-div">
-        <img id="logo" src="./assets/logo-light.svg" alt="logo-light" />
+        <img id="logo" src="./assets/logo-light.svg" alt="logo-light" /> <!-- Sidebar logo -->
       </div>
 
       <div class="boards-nav-links-div" id="boards-nav-links-div">
-        <h4 id="headline-sidepanel">ALL BOARDS (1)</h4>
-        <button class="board-btn">Launch Career</button>
+        <h4 id="headline-sidepanel">ALL BOARDS (1)</h4> <!-- Sidebar heading -->
+        <button class="board-btn">Launch Career</button> <!-- Single board button -->
       </div>
+
       <div class="board-toggle-div">
         <div class="toggleswitch-div" id="toggleswitch-div">
-          <div>☀️</div>
-          <button
-            class="toggleswitch-btn"
-            id="toggleswitch-btn"
-            onclick="toggleTheme()"
-          >
-            <div
-              class="toggleswitch-btn-circle"
-              id="toggleswitch-btn-circle"
-            ></div>
+          <div>☀️</div> <!-- Sun icon for light theme -->
+          <button class="toggleswitch-btn" id="toggleswitch-btn" onclick="toggleTheme()"> <!-- Theme toggle button -->
+            <div class="toggleswitch-btn-circle" id="toggleswitch-btn-circle"></div> <!-- Toggle knob -->
           </button>
-          <div>⚫</div>
+          <div>⚫</div> <!-- Moon icon for dark theme -->
         </div>
-        <button
-          class="hide-sidebar-btn"
-          id="hide-sidebar-btn"
-          onclick="hideSidebar()"
-        >
+        <button class="hide-sidebar-btn" id="hide-sidebar-btn" onclick="hideSidebar()"> <!-- Button to hide sidebar -->
           <span>🚫 </span> Hide Sidebar
         </button>
       </div>
     </nav>
 
-    <!-- Main Layout -->
+    <!-- Main layout wrapper -->
     <div id="layout">
-      <header id="header" class="sticky-header">
+      <header id="header" class="sticky-header"> <!-- Top sticky header -->
         <div class="header-name-div">
-          <img
-            src="./assets/favicon.svg"
-            alt="logo-mobile"
-            class="logo-mobile"
-            id="logo-mobile"
-            onclick="openTopModal()"
-          />
-          <h2 class="header-board-name" id="header-board-name">
-            Launch Career
-          </h2>
+          <img src="./assets/favicon.svg" alt="logo-mobile" class="logo-mobile" id="logo-mobile" onclick="openTopModal()" /> <!-- Mobile logo -->
+          <h2 class="header-board-name" id="header-board-name">Launch Career</h2> <!-- Current board title -->
         </div>
 
-        <button
-          class="addnewtask-btn"
-          id="addnewtaskbtn"
-          onclick="openAddTaskModal()"
-        >
+        <!-- Button to open Add Task modal -->
+        <button class="addnewtask-btn" id="addnewtaskbtn" onclick="openAddTaskModal()">
           + <span class="addnewtask-btn-text">Add New Task</span>
         </button>
       </header>
 
+      <!-- Container for columns -->
       <div class="container" id="container">
         <main class="card-column-main">
-          <!-- Task Columns -->
+          <!-- TODO Column -->
           <div class="column-div" data-status="todo">
             <div id="todo-head-div" class="column-head-div">
-              <span class="dot" id="todo-dot"></span>
-              <h4 id="toDoText" class="columnHeader">TODO (4)</h4>
+              <span class="dot" id="todo-dot"></span> <!-- Column dot indicator -->
+              <h4 id="toDoText" class="columnHeader">TODO (4)</h4> <!-- Column header with count -->
             </div>
-            <div id="todo-tasks" class="tasks-container"></div>
+            <div id="todo-tasks" class="tasks-container"></div> <!-- Container for tasks -->
           </div>
+
+          <!-- DOING Column -->
           <div class="column-div" data-status="doing">
             <div id="doing-head-div" class="column-head-div">
               <span class="dot" id="doing-dot"></span>
@@ -98,6 +85,8 @@
             </div>
             <div id="doing-tasks" class="tasks-container"></div>
           </div>
+
+          <!-- DONE Column -->
           <div class="column-div" data-status="done">
             <div id="done-head-div" class="column-head-div">
               <span class="dot" id="done-dot"></span>
@@ -107,14 +96,10 @@
           </div>
         </main>
       </div>
+
+      <!-- Button to show sidebar when hidden -->
       <div class="hide-sidebar-btn-div">
-        <button
-          class="show-sidebar-btn"
-          id="show-sidebar-btn"
-          onclick="showSidebar()"
-        >
-          👀
-        </button>
+        <button class="show-sidebar-btn" id="show-sidebar-btn" onclick="showSidebar()">👀</button>
       </div>
     </div>
 
@@ -123,18 +108,22 @@
       <div class="modal-body">
         <div class="modal-header" id="modal-header">
           <h3>Task Details</h3>
-          <button class="close-btn" id="close-btn" onclick="closeModal()">
-            ×
-          </button>
+          <button class="close-btn" id="close-btn" onclick="closeModal()">×</button> <!-- Close modal -->
         </div>
+
+        <!-- Task Title input -->
         <div class="task-details">
           <h4 class="Section-discription">Title</h4>
           <input id="edit-task-title" type="text" placeholder="Enter task title..." />
         </div>
+
+        <!-- Task Description textarea -->
         <div class="task-details">
           <h4 class="Section-discription">Description</h4>
           <textarea id="edit-task-description" rows="3" placeholder="Enter task description..."></textarea>
         </div>
+
+        <!-- Task Priority select -->
         <div class="task-details">
           <h4 class="Section-discription">Priority</h4>
           <select id="edit-task-priority">
@@ -143,10 +132,14 @@
             <option value="low">Low</option>
           </select>
         </div>
+
+        <!-- Task Due Date input -->
         <div class="task-details">
           <h4 class="Section-discription">Due Date</h4>
           <input id="edit-task-due-date" type="date" />
         </div>
+
+        <!-- Task Status select -->
         <div class="task-details">
           <h4 class="Section-discription">Status</h4>
           <select id="edit-task-status">
@@ -155,13 +148,11 @@
             <option value="done">Done</option>
           </select>
         </div>
+
+        <!-- Modal Footer Buttons -->
         <div class="modal-footer">
-          <button class="savechanges-btn" onclick="updateTask()">
-            Save Changes
-          </button>
-          <button class="deletetask-btn" onclick="deleteTask()">
-            Delete Task
-          </button>
+          <button class="savechanges-btn" onclick="updateTask()">Save Changes</button>
+          <button class="deletetask-btn" onclick="deleteTask()">Delete Task</button>
         </div>
       </div>
     </dialog>
@@ -171,18 +162,22 @@
       <div class="modal-body">
         <div class="modal-header" id="modal-header1">
           <h3>Add New Task</h3>
-          <button class="close-btn" id="close-btn1" onclick="closeModal()">
-            ×
-          </button>
+          <button class="close-btn" id="close-btn1" onclick="closeModal()">×</button>
         </div>
+
+        <!-- Task Title input -->
         <div class="task-details">
           <h4 class="Section-discription">Title</h4>
           <input id="add-task-title" type="text" placeholder="Enter task title..." />
         </div>
+
+        <!-- Task Description textarea -->
         <div class="task-details">
           <h4 class="Section-discription">Description</h4>
           <textarea id="add-task-description" rows="3" placeholder="Enter task description..."></textarea>
         </div>
+
+        <!-- Task Priority select -->
         <div class="task-details">
           <h4 class="Section-discription">Priority</h4>
           <select id="add-task-priority">
@@ -191,10 +186,14 @@
             <option value="low">Low</option>
           </select>
         </div>
+
+        <!-- Task Due Date input -->
         <div class="task-details">
           <h4 class="Section-discription">Due Date</h4>
           <input id="add-task-due-date" type="date" />
         </div>
+
+        <!-- Task Status select -->
         <div class="task-details">
           <h4 class="Section-discription">Status</h4>
           <select id="add-task-status">
@@ -203,13 +202,14 @@
             <option value="done">Done</option>
           </select>
         </div>
+
         <div class="modal-footer">
           <button class="createtask-btn" onclick="addTask()">Create Task</button>
         </div>
       </div>
     </dialog>
 
-    <!-- Board Settings Modal -->
+    <!-- Board Settings / Top Modal -->
     <dialog id="top-modal">
       <div class="modal-body">
         <div class="top-modal-header" id="top-modal-header">
@@ -217,29 +217,19 @@
             <h4 id="headline-sidepanel">ALL BOARDS (1)</h4>
             <button class="board-btn">Launch Career</button>
           </div>
-          <button
-            class="topmodal-close-btn"
-            id="close-btn2"
-            onclick="closeModal()"
-          >
-            ×
-          </button>
+          <button class="topmodal-close-btn" id="close-btn2" onclick="closeModal()">×</button>
         </div>
+
+        <!-- Theme toggle in top modal -->
         <div class="toggleswitch-div1" id="toggleswitch-div1">
           <div>☀️</div>
-          <button
-            class="toggleswitch-btn"
-            id="toggleswitch-btn1"
-            onclick="toggleTheme()"
-          >
-            <div
-              class="toggleswitch-btn-circle"
-              id="toggleswitch-btn-circle"
-            ></div>
+          <button class="toggleswitch-btn" id="toggleswitch-btn1" onclick="toggleTheme()">
+            <div class="toggleswitch-btn-circle" id="toggleswitch-btn-circle"></div>
           </button>
           <div>⚫</div>
         </div>
       </div>
     </dialog>
+
   </body>
 </html>
