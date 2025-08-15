@@ -741,6 +741,8 @@ body.dark-theme #add-task-description::placeholder {
 .priority-dot {
   width: 12px;
   height: 12px;
+}
+
  /* ========================
    Global Styles
 ======================== */
