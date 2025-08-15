@@ -2,7 +2,7 @@
   "tasks": [
     {
       "id": 1,
-      "title": "Launch Career 🚀",
+      "title": "🚀 🔴 Launch Career",
       "description": "Create a killer resume and LinkedIn profile",
       "priority": "high",
       "dueDate": "2025-08-20",
@@ -10,7 +10,7 @@
     },
     {
       "id": 2,
-      "title": "Learn JavaScript 🧑🏾‍💻",
+      "title": "💻 🟡 Learn JavaScript",
       "description": "Complete JS tutorials on Codecademy",
       "priority": "medium",
       "dueDate": "2025-08-22",
@@ -18,7 +18,7 @@
     },
     {
       "id": 3,
-      "title": "Submit Assignment 📝",
+      "title": "📝 🟢 Submit Assignment",
       "description": "Finish Kanban project assignment",
       "priority": "low",
       "dueDate": "2025-08-23",
@@ -26,7 +26,7 @@
     },
     {
       "id": 4,
-      "title": "Design Portfolio 🎨",
+      "title": "🎨 🔴 Design Portfolio",
       "description": "Create a portfolio website using Figma",
       "priority": "high",
       "dueDate": "2025-08-25",
@@ -34,7 +34,7 @@
     },
     {
       "id": 5,
-      "title": "Read Documentation 📖",
+      "title": "📖 🟡 Read Documentation",
       "description": "Read React documentation thoroughly",
       "priority": "medium",
       "dueDate": "2025-08-24",
@@ -42,7 +42,7 @@
     },
     {
       "id": 6,
-      "title": "Fix Bug #12 🐛",
+      "title": "🐛 🔴 Fix Bug #12",
       "description": "Debug Kanban app modal issue",
       "priority": "high",
       "dueDate": "2025-08-21",
@@ -50,15 +50,15 @@
     },
     {
       "id": 7,
-      "title": "Team Meeting 📅",
+      "title": "📅 🟢 Team Meeting",
       "description": "Discuss project progress and tasks",
-      "priority": "medium",
+      "priority": "low",
       "dueDate": "2025-08-23",
       "status": "done"
     },
     {
       "id": 8,
-      "title": "Test API Integration 🔗",
+      "title": "🔗 🔴 Test API Integration",
       "description": "Ensure JSON Server API works with fetch",
       "priority": "high",
       "dueDate": "2025-08-26",
@@ -66,15 +66,15 @@
     },
     {
       "id": 9,
-      "title": "Update README 🆙",
+      "title": "🆙 🟡 Update README",
       "description": "Add setup instructions and screenshots",
-      "priority": "low",
+      "priority": "medium",
       "dueDate": "2025-08-25",
       "status": "doing"
     },
     {
       "id": 10,
-      "title": "Deploy App ☁️",
+      "title": "☁️ 🔴 Deploy App",
       "description": "Push to Netlify for live demo",
       "priority": "high",
       "dueDate": "2025-08-27",
