@@ -1,0 +1,894 @@
+/* ========================
+   Global & Root Variables
+======================== */
+* {
+  box-sizing: border-box; /* Ensures padding and border are included in total element size */
+}
+
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #f4f7fd;
+  --primary-font-color: #000000;
+  --secondary-font-color: #828fa3;
+  --primary-box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.1015); /* Subtle shadow for card depth */
+  --sidebar-width: 300px; /* Sidebar fixed width */
+}
+
+/* ================
+       Base Elements
+    ================ */
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  display: flex; /* Allow layout to span horizontally */
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--secondary-color);
+  font-size: 1rem; /* Base font size for rem scaling */
+}
+
+/* ================
+       Sidebar Layoutgit checkout --orphan new-branch
+    ================ */
+.side-bar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-color);
+  border-right: 1px solid #e4ebfa; /* Light divider */
+  width: var(--sidebar-width);
+  height: 100vh;
+}
+
+#side-logo-div {
+  margin: 33px 113px 54px 34px; /* Spacing around logo */
+  display: flex;
+  justify-content: flex-start;
+}
+
+#logo {
+  width: 100%; /* Make logo responsive within container */
+}
+
+.boards-nav-links-div {
+  display: flex;
+  flex-direction: column;
+  color: var(--primary-font-color);
+}
+
+#headline-sidepanel {
+  padding: 0 12px 0 50px; /* Aligns section content from left and right */
+}
+
+h4 {
+  color: var(--secondary-font-color);
+  font-size: 0.75rem;
+  letter-spacing: 0.125rem; /* Makes heading more spaced */
+}
+
+.board-btn {
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  background-color: #635fc7;
+  color: #fff;
+  border: none;
+  border-radius: 0 100px 100px 0; /* Pill shape only on right side */
+  height: 48px;
+  width: 276px;
+  padding: 28px 12px 28px 50px;
+  font-size: 0.9375rem;
+  font-weight: bold;
+  cursor: pointer;
+  overflow: hidden; /* Prevents overflowed text/icons from showing */
+}
+
+.board-toggle-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0%; /* Position at the bottom of sidebar */
+}
+
+.toggleswitch-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #f4f7fd;
+  border: none;
+  border-radius: 6px;
+  height: 48px;
+  width: 251px;
+  margin: 0px auto 20px 16px;
+  padding: 0px 64px 0px 64px;
+  font-size: 0.9375rem;
+}
+
+.toggleswitch-btn {
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  background-color: #635fc7;
+  border: none;
+  border-radius: 12px;
+  height: 20px;
+  width: 40px;
+  padding: 0px 5px 0px 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.toggleswitch-btn-circle {
+  background-color: #fff;
+  border-radius: 50%; /* Make it circular */
+  height: 14px;
+  width: 14px;
+  transition: all 0.3s ease; /* Smooth transition for toggle */
+}
+
+.hide-sidebar-btn {
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  background-color: #f4f7fd;
+  color: #635fc7;
+  border: none;
+  border-radius: 0 100px 100px 0; /* Pill shape only on right side */
+  height: 48px;
+  width: 276px;
+  padding: 28px 20px 28px 25px;
+  font-size: 0.9375rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.show-sidebar-btn {
+  display: none; /* Hidden by default; shown on smaller screens */
+  font-family: inherit;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  background-color: #a8a4ff;
+  color: #fff;
+  border: none;
+  border-radius: 0 100px 100px 0; /* Pill shape only on right side */
+  height: 48px;
+  width: 56px;
+  padding: 0px 0px 0px 4px;
+  font-size: 0.9375rem;
+  font-weight: bold;
+  cursor: pointer;
+  position: fixed; /* Fixed position for visibility */
+  bottom: 50px; /* Position at the bottom of the viewport */
+}
+
+/* ===============
+       Main Layout
+    ================ */
+#layout {
+  flex: 1; /* Fills remaining space beside sidebar */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  width: 100%;
+}
+
+/* ===============
+       Header Section
+    ================ */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary-color);
+  color: var(--primary-font-color);
+  height: 96px;
+  padding: 0 35px 0 30px;
+  border-bottom: 1px solid #e4ebfa;
+  width: 100%;
+  font-size: 1.875rem;
+  font-weight: 600;
+}
+
+.header-name-div {
+  display: flex;
+  align-items: center;
+}
+
+.logo-mobile {
+  display: none; /* Hidden on desktop; shown on smaller screens */
+}
+
+.addnewtask-btn {
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  background-color: #635fc7;
+  color: #fff;
+  border: none;
+  border-radius: 100px; /* Pill shape button */
+  height: 48px;
+  width: 164px;
+  padding: 15px 25px 14px 24px;
+  font-size: 0.938rem;
+  font-weight: 700;
+  cursor: pointer;
+  overflow: hidden; /* Prevents overflowed text/icons from showing */
+}
+
+/* ===============
+       Board Columns
+    ================ */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 35px;
+  box-sizing: border-box;
+}
+
+.card-column-main {
+  display: grid;
+  grid-template-columns: repeat(
+    3,
+    minmax(0, 304px)
+  ); /* 3 columns with min size */
+  gap: 8px; /* Space between columns */
+}
+
+.column-div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 12px;
+}
+
+.column-head-div {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between dot and column title */
+}
+
+.columnHeader {
+  font-size: 0.75rem;
+  letter-spacing: 0.125rem;
+  color: var(--secondary-font-color);
+  margin: 0;
+}
+
+/* Status Dots */
+.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%; /* Make it circular */
+  display: inline-block;
+}
+
+#todo-dot {
+  background-color: #49c4e5;
+}
+
+#doing-dot {
+  background-color: #8471f2;
+}
+
+#done-dot {
+  background-color: #219c90;
+}
+
+/* ===============
+       Task Cards
+    ================ */
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-div {
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  width: 100%;
+  height: 60px;
+  background-color: var(--primary-color);
+  color: var(--primary-font-color);
+  border-radius: 12px;
+  box-shadow: var(--primary-box-shadow);
+  cursor: pointer; /* Indicate it's clickable */
+  margin-bottom: 20px;
+  font-size: 0.9375rem;
+  font-weight: bold;
+}
+
+/*================
+       Edit Task Modal
+    ================ */
+
+#top-modal {
+  flex-direction: column;
+  border: 0px solid #e4ebfa;
+  border-radius: 12px;
+  position: fixed;
+  top: 10.5rem;
+  left: 50%;
+  z-index: 1000;
+  transform: translate(-50%, -50%);
+  background-color: var(--primary-color);
+  min-width: 343px;
+  width: 340px;
+  margin: 0;
+  padding: 0px 16px 0px 0px;
+}
+
+.top-modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 0px;
+  margin-bottom: 20px;
+}
+
+.topmodal-close-btn {
+  background-color: var(--primary-color);
+  border: 0px solid var(--primary-color);
+  color: #ea5555; /* Close button color */
+  font-size: 1.5rem;
+  width: 40px;
+  cursor: pointer;
+  padding-right: 0px;
+  margin-bottom: 42px;
+}
+
+.toggleswitch-div1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #f4f7fd;
+  border: none;
+  border-radius: 6px;
+  height: 48px;
+  width: 251px;
+  margin: 0px auto 20px auto;
+  padding: 0px 64px 0px 64px;
+  font-size: 0.9375rem;
+}
+
+#task-modal {
+  flex-direction: column;
+  border: 0px solid #e4ebfa;
+  border-radius: 12px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  transform: translate(-50%, -50%);
+  background-color: var(--primary-color);
+  min-width: 343px;
+  width: 479px;
+  margin: 0;
+  padding-top: 0px;
+}
+
+#task-modal1 {
+  flex-direction: column;
+  border: 0px solid #93aadd;
+  border-radius: 12px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  transform: translate(-50%, -50%);
+  background-color: var(--primary-color);
+  min-width: 343px;
+  width: 479px;
+  margin: 0;
+  padding-top: 0px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background-color: var(--primary-color);
+  border: 0px solid var(--primary-color);
+  color: #ea5555; /* Close button color */
+  font-size: 1.5rem;
+  width: 40px;
+  cursor: pointer;
+  padding-right: 0px;
+}
+
+.Section-discription {
+  margin-bottom: 10px; /* Space below description */
+  margin-top: 0px; /* No space above description */
+}
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.savechanges-btn {
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #635fc7; /* Primary button color */
+  color: #fff;
+  border: none;
+  border-radius: 100px; /* Pill shape button */
+  height: 40px;
+  width: 200px;
+  padding: 15px 25px 14px 24px;
+  font-size: 0.938rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.deletetask-btn {
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ea5555; /* Danger button color */
+  color: #fff;
+  border: none;
+  border-radius: 100px; /* Pill shape button */
+  height: 40px;
+  width: 200px;
+  padding: 15px 25px 14px 24px;
+  font-size: 0.938rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.createtask-btn {
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #635fc7; /* Primary button color */
+  color: #fff;
+  border: none;
+  border-radius: 100px; /* Pill shape button */
+  height: 40px;
+  width: 100%;
+  padding: 15px 25px 14px 24px;
+  font-size: 0.938rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#edit-task-title {
+  padding: 10px;
+  font-size: 0.8rem;
+  border: 1px solid #e4ebfa; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+#edit-task-description {
+  padding: 10px;
+  font-size: 0.8rem;
+  border: 1px solid #e4ebfa; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+#edit-task-status {
+  padding: 10px;
+  font-size: 0.8rem;
+  border: 1px solid #e4ebfa; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+#add-task-title {
+  padding: 10px;
+  font-size: 0.8rem;
+  border: 1px solid #e4ebfa; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+#add-task-description {
+  padding: 10px;
+  font-size: 0.8rem;
+  border: 1px solid #e4ebfa; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+#add-task-status {
+  padding: 10px;
+  font-size: 0.8rem;
+  border: 1px solid #e4ebfa; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* ===============
+       Headings
+    ================ */
+h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+/* ========================
+       Responsive Styles
+    ======================== */
+
+/****** Tablets ******/
+@media screen and (max-width: 1023px) {
+  .side-bar {
+    display: none !important; /* Hide sidebar on tablets and smaller */
+  }
+
+  .side-bar.show-sidebar {
+    display: flex !important;
+    position: fixed; /* Overlay on top of page */
+    height: auto;
+  }
+
+  #side-logo-div {
+    display: none;
+  }
+
+  .logo-mobile {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  #show-sidebar-btn {
+    display: none !important; /* Hide show sidebar button on tablets */
+  }
+
+  body {
+    font-size: 0.8rem;
+  }
+
+  .board-btn {
+    font-size: 0.8rem;
+    padding-left: 15px;
+    margin-right: 15px;
+    font-weight: 700;
+  }
+
+  .container {
+    padding: 0;
+    width: 100%;
+    align-items: center; /* Center columns on smaller screens */
+  }
+
+  .card-column-main {
+    grid-template-columns: repeat(2, minmax(0, 360px));
+    gap: 8px;
+  }
+
+  header {
+    height: 64px;
+    padding: 0 10px 0 18px;
+    border: none;
+  }
+
+  #header-board-name {
+    font-size: 1rem;
+  }
+
+  .task-div {
+    width: 100%;
+  }
+
+  .columnHeader {
+    font-size: 0.75rem;
+  }
+
+  .dot {
+    height: 8px;
+    width: 8px;
+  }
+
+  .column-head-div {
+    gap: 8px;
+  }
+
+  .column-div {
+    width: 100%;
+  }
+}
+
+/******** Mobile ********/
+@media screen and (max-width: 576px) {
+  .card-column-main {
+    grid-template-columns: minmax(
+      0,
+      380px
+    ); /* Stack columns in single column */
+  }
+
+  .column-div {
+    padding: 24px;
+  }
+
+  #header-board-name {
+    display: none; /* Hide board name on mobile */
+  }
+
+  .addnewtask-btn {
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #635fc7;
+    color: #fff;
+    border: none;
+    border-radius: 100px; /* Pill shape button */
+    height: 33px;
+    width: 33px;
+    padding: 10px 10px 12px 10px;
+    font-size: 0.938rem;
+    font-weight: 700;
+    cursor: pointer;
+    overflow: hidden; /* Prevents overflowed text/icons from showing */
+  }
+
+  .addnewtask-btn-text {
+    display: none; /* Hidden on smallscreens; shown on desktop */
+  }
+
+  .modal-footer {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center buttons */
+  }
+
+  .savechanges-btn {
+    width: 100%; /* Full width on mobile */
+    margin-bottom: 15px; /* Space between buttons */
+  }
+
+  .deletetask-btn {
+    width: 100%; /* Full width on mobile */
+  }
+}
+
+/* ========================
+       Dark Theme Styles
+    ======================== */
+body.dark-theme {
+  --primary-color: #2B2C37;
+  --secondary-color: #20212C;
+  --primary-font-color: #FFFFFF;
+  --secondary-font-color: #828FA3;
+}
+
+body.dark-theme .side-bar {
+  background-color: var(--primary-color);
+  border-right-color: #3E3F4E;
+}
+
+body.dark-theme header {
+  background-color: var(--primary-color);
+  border-bottom-color: #3E3F4E;
+  color: var(--primary-font-color);
+}
+
+body.dark-theme .task-div {
+  background-color: var(--primary-color);
+  color: var(--primary-font-color);
+}
+
+body.dark-theme .toggleswitch-div,
+body.dark-theme .toggleswitch-div1 {
+  background-color: #635FC7;
+}
+
+body.dark-theme .hide-sidebar-btn {
+  background-color: #635FC7;
+  color: white;
+}
+
+body.dark-theme dialog {
+  background-color: var(--primary-color);
+  color: var(--primary-font-color);
+}
+
+body.dark-theme .close-btn,
+body.dark-theme .topmodal-close-btn {
+  background-color: var(--primary-color);
+  color: #EA5555;
+}
+/* Placeholder styling for both light and dark modes */
+#edit-task-title::placeholder,
+#edit-task-description::placeholder,
+#add-task-title::placeholder,
+#add-task-description::placeholder {
+  color: #828fa3; /* Secondary font color */
+  opacity: 1; /* Full opacity */
+  font-size: 0.8rem;
+}
+
+/* Dark mode placeholder styling */
+body.dark-theme #edit-task-title::placeholder,
+body.dark-theme #edit-task-description::placeholder,
+body.dark-theme #add-task-title::placeholder,
+body.dark-theme #add-task-description::placeholder {
+  color: #a0a0a0;
+}
+
+/* ========================
+   Enhanced Kanban Board Styles
+   (Add these to your existing CSS)
+======================== */
+
+/* Priority Indicators */
+.priority-dot {
+  width: 12px;
+  height: 12px;
+ /* ========================
+   Global Styles
+======================== */
+* {
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f4f7fd;
+  color: #000;
+}
+
+.dark-theme {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+.side-bar {
+  width: 250px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.dark-theme .side-bar {
+  background: #2c2c2c;
+}
+
+.board-btn {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background: #e0e0e0;
+}
+
+.board-btn:hover {
+  background: #d0d0d0;
+}
+
+.sticky-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dark-theme .sticky-header {
+  background: #2c2c2c;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 1rem;
+}
+
+.card-column-main {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.column-div {
+  flex: 1;
+  min-width: 250px;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dark-theme .column-div {
+  background: #2c2c2c;
+}
+
+.tasks-container {
+  margin-top: 0.5rem;
+}
+
+.task-div {
+  background: #f0f0f0;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.task-div:hover {
+  transform: scale(1.02);
+  transition: 0.2s;
+}
+
+.dialog::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+
+/* Modal */
+.modal-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Buttons */
+.addnewtask-btn, .createtask-btn, .savechanges-btn, .deletetask-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.addnewtask-btn, .createtask-btn, .savechanges-btn {
+  background: #635fc7;
+  color: #fff;
+}
+
+.deletetask-btn {
+  background: #ea5555;
+  color: #fff;
+}
+
+/* Dark theme adjustments */
+.dark-theme input, .dark-theme select, .dark-theme textarea {
+  background: #3c3c3c;
+  color: #fff;
+}
+
+.dark-theme .task-div {
+  background: #3c3c3c;
+}

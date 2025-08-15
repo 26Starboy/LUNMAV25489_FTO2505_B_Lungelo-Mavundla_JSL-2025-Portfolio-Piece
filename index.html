@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon.svg"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script defer src="./scripts.js"></script>
+    <title>Kanban Task Management</title>
+  </head>
+
+  <body>
+    <!-- Navigation Sidebar -->
+    <nav class="side-bar" id="side-bar-div">
+      <div id="side-logo-div">
+        <img id="logo" src="./assets/logo-light.svg" alt="logo-light" />
+      </div>
+
+      <div class="boards-nav-links-div" id="boards-nav-links-div">
+        <h4 id="headline-sidepanel">ALL BOARDS (1)</h4>
+        <button class="board-btn">Launch Career</button>
+      </div>
+      <div class="board-toggle-div">
+        <div class="toggleswitch-div" id="toggleswitch-div">
+          <div>☀️</div>
+          <button
+            class="toggleswitch-btn"
+            id="toggleswitch-btn"
+            onclick="toggleTheme()"
+          >
+            <div
+              class="toggleswitch-btn-circle"
+              id="toggleswitch-btn-circle"
+            ></div>
+          </button>
+          <div>⚫</div>
+        </div>
+        <button
+          class="hide-sidebar-btn"
+          id="hide-sidebar-btn"
+          onclick="hideSidebar()"
+        >
+          <span>🚫 </span> Hide Sidebar
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div id="layout">
+      <header id="header" class="sticky-header">
+        <div class="header-name-div">
+          <img
+            src="./assets/favicon.svg"
+            alt="logo-mobile"
+            class="logo-mobile"
+            id="logo-mobile"
+            onclick="openTopModal()"
+          />
+          <h2 class="header-board-name" id="header-board-name">
+            Launch Career
+          </h2>
+        </div>
+
+        <button
+          class="addnewtask-btn"
+          id="addnewtaskbtn"
+          onclick="openAddTaskModal()"
+        >
+          + <span class="addnewtask-btn-text">Add New Task</span>
+        </button>
+      </header>
+
+      <div class="container" id="container">
+        <main class="card-column-main">
+          <!-- Task Columns -->
+          <div class="column-div" data-status="todo">
+            <div id="todo-head-div" class="column-head-div">
+              <span class="dot" id="todo-dot"></span>
+              <h4 id="toDoText" class="columnHeader">TODO (4)</h4>
+            </div>
+            <div id="todo-tasks" class="tasks-container"></div>
+          </div>
+          <div class="column-div" data-status="doing">
+            <div id="doing-head-div" class="column-head-div">
+              <span class="dot" id="doing-dot"></span>
+              <h4 id="doingText" class="columnHeader">DOING (2)</h4>
+            </div>
+            <div id="doing-tasks" class="tasks-container"></div>
+          </div>
+          <div class="column-div" data-status="done">
+            <div id="done-head-div" class="column-head-div">
+              <span class="dot" id="done-dot"></span>
+              <h4 id="doneText" class="columnHeader">DONE (2)</h4>
+            </div>
+            <div id="done-tasks" class="tasks-container"></div>
+          </div>
+        </main>
+      </div>
+      <div class="hide-sidebar-btn-div">
+        <button
+          class="show-sidebar-btn"
+          id="show-sidebar-btn"
+          onclick="showSidebar()"
+        >
+          👀
+        </button>
+      </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <dialog id="task-modal">
+      <div class="modal-body">
+        <div class="modal-header" id="modal-header">
+          <h3>Task Details</h3>
+          <button class="close-btn" id="close-btn" onclick="closeModal()">
+            ×
+          </button>
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Title</h4>
+          <input id="edit-task-title" type="text" placeholder="Enter task title..." />
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Description</h4>
+          <textarea id="edit-task-description" rows="3" placeholder="Enter task description..."></textarea>
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Priority</h4>
+          <select id="edit-task-priority">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Due Date</h4>
+          <input id="edit-task-due-date" type="date" />
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Status</h4>
+          <select id="edit-task-status">
+            <option value="todo">Todo</option>
+            <option value="doing">Doing</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="savechanges-btn" onclick="updateTask()">
+            Save Changes
+          </button>
+          <button class="deletetask-btn" onclick="deleteTask()">
+            Delete Task
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Add Task Modal -->
+    <dialog id="task-modal1">
+      <div class="modal-body">
+        <div class="modal-header" id="modal-header1">
+          <h3>Add New Task</h3>
+          <button class="close-btn" id="close-btn1" onclick="closeModal()">
+            ×
+          </button>
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Title</h4>
+          <input id="add-task-title" type="text" placeholder="Enter task title..." />
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Description</h4>
+          <textarea id="add-task-description" rows="3" placeholder="Enter task description..."></textarea>
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Priority</h4>
+          <select id="add-task-priority">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Due Date</h4>
+          <input id="add-task-due-date" type="date" />
+        </div>
+        <div class="task-details">
+          <h4 class="Section-discription">Status</h4>
+          <select id="add-task-status">
+            <option value="todo">Todo</option>
+            <option value="doing">Doing</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="createtask-btn" onclick="addTask()">Create Task</button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Board Settings Modal -->
+    <dialog id="top-modal">
+      <div class="modal-body">
+        <div class="top-modal-header" id="top-modal-header">
+          <div class="boards-nav-links-div" id="boards-nav-links-div">
+            <h4 id="headline-sidepanel">ALL BOARDS (1)</h4>
+            <button class="board-btn">Launch Career</button>
+          </div>
+          <button
+            class="topmodal-close-btn"
+            id="close-btn2"
+            onclick="closeModal()"
+          >
+            ×
+          </button>
+        </div>
+        <div class="toggleswitch-div1" id="toggleswitch-div1">
+          <div>☀️</div>
+          <button
+            class="toggleswitch-btn"
+            id="toggleswitch-btn1"
+            onclick="toggleTheme()"
+          >
+            <div
+              class="toggleswitch-btn-circle"
+              id="toggleswitch-btn-circle"
+            ></div>
+          </button>
+          <div>⚫</div>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>
