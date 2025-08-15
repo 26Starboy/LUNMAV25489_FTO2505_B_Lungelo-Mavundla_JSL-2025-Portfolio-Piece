@@ -230,8 +230,21 @@ function showSidebar() {
 // ========================
 // Dark/Light Theme Toggle
 // ========================
+const logo = document.getElementById("logo");
+const logoMobile = document.getElementById("logo-mobile");
+
 function toggleTheme() {
   document.body.classList.toggle("dark-theme");
+
+  if (document.body.classList.contains("dark-theme")) {
+    // Switch to dark logo
+    logo.src = "assets/logo-dark.svg";
+    if (logoMobile) logoMobile.src = "assets/logo-dark.svg";
+  } else {
+    // Switch back to light logo
+    logo.src = "assets/logo-light.svg";
+    if (logoMobile) logoMobile.src = "assets/logo-light.svg";
+  }
 }
 
 // ========================
