@@ -811,3 +811,25 @@ body.dark-theme #add-task-description::placeholder {
   width: 12px;
   height: 12px;
 }
+
+/* Mobile view adjustments */
+@media screen and (max-width: 576px) {
+  /* Hide full sidebar logo */
+  #side-logo-div {
+    display: none; /* Hide full logo */
+  }
+
+  /* Show only small logo/icon in top left */
+  .logo-mobile {
+    display: block; /* Show small icon */
+    width: 30px; /* Icon size */
+    height: 30px;
+    margin-left: 16px; /* Slight spacing from left edge */
+    margin-top: 16px; /* Slight spacing from top */
+  }
+
+  /* Hide logo text in header */
+  #header-board-name {
+    display: none; /* Hide full board/logo name */
+  }
+}
