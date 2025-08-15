@@ -1,20 +1,7 @@
 // ========================
-// Kanban Board with Fixed Titles + Status Dots + Placeholders
+// Base API URL
 // ========================
-
-// ========================
-// Task Data
-// ========================
-let tasks = [
-  { id: 1, title: "Launch Epic Career 🚀", description: "Create a killer resume and LinkedIn profile", status: "todo" },
-  { id: 2, title: "Master JavaScript 💛", description: "Complete advanced JavaScript course", status: "doing" },
-  { id: 3, title: "Build Portfolio Website 🏗️", description: "Design and develop personal portfolio", status: "doing" },
-  { id: 4, title: "Learn React ⚛️", description: "Complete React fundamentals course", status: "todo" },
-  { id: 5, title: "Network with Professionals 🤝", description: "Attend 3 tech meetups this month", status: "todo" },
-  { id: 6, title: "Complete Project X 🎯", description: "Finalize and deploy the full-stack project", status: "done" },
-  { id: 7, title: "Update CV 📄", description: "Add recent projects and skills", status: "done" },
-  { id: 8, title: "Prepare for Interviews 💼", description: "Practice 50 coding challenges", status: "todo" }
-];
+const API_URL = "http://localhost:3000/tasks";
 
 // ========================
 // DOM Elements
@@ -22,196 +9,190 @@ let tasks = [
 const todoContainer = document.getElementById("todo-tasks");
 const doingContainer = document.getElementById("doing-tasks");
 const doneContainer = document.getElementById("done-tasks");
-const addTaskModalEl = document.getElementById("task-modal1");
-const editTaskModalEl = document.getElementById("task-modal");
-let currentTask = null;
+
+const addTaskModal = document.getElementById("task-modal1");
+const editTaskModal = document.getElementById("task-modal");
+const topModal = document.getElementById("top-modal");
+
+const addTaskTitle = document.getElementById("add-task-title");
+const addTaskDescription = document.getElementById("add-task-description");
+const addTaskPriority = document.getElementById("add-task-priority");
+const addTaskDueDate = document.getElementById("add-task-due-date");
+const addTaskStatus = document.getElementById("add-task-status");
+
+const editTaskTitle = document.getElementById("edit-task-title");
+const editTaskDescription = document.getElementById("edit-task-description");
+const editTaskPriority = document.getElementById("edit-task-priority");
+const editTaskDueDate = document.getElementById("edit-task-due-date");
+const editTaskStatus = document.getElementById("edit-task-status");
+
+let currentEditTaskId = null;
 
 // ========================
-// Initialize Board
+// Fetch Tasks from API
 // ========================
-function initializeBoard() {
-  const savedTasks = localStorage.getItem("kanban-tasks");
-  if (savedTasks) tasks = JSON.parse(savedTasks);
-
-  renderTasks();
-  setupDragAndDrop();
-
-  // Initialize theme explicitly
-  const savedTheme = localStorage.getItem("kanban-theme");
-  const body = document.body;
-  if (savedTheme === "dark") {
-    body.classList.add("dark-theme");
-  } else {
-    body.classList.remove("dark-theme"); // Ensure light mode by default
+async function fetchTasksFromAPI() {
+  try {
+    const response = await fetch(API_URL);
+    const tasks = await response.json();
+    renderTasks(tasks);
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
   }
 }
 
 // ========================
-// Render Tasks with Status Dots
+// Render Tasks
 // ========================
-function renderTasks() {
+function renderTasks(tasks) {
+  // Clear current tasks
   todoContainer.innerHTML = "";
   doingContainer.innerHTML = "";
   doneContainer.innerHTML = "";
 
+  // Filter and display tasks
   tasks.forEach(task => {
     const taskDiv = document.createElement("div");
     taskDiv.className = "task-div";
-    taskDiv.setAttribute("data-id", task.id);
-    taskDiv.draggable = true;
+    taskDiv.innerText = task.title;
+    taskDiv.onclick = () => openEditTaskModal(task);
 
-    // Determine status dot color
-    let statusColor = "";
-    if (task.status === "todo") statusColor = "#49c4e5";    // Blue
-    else if (task.status === "doing") statusColor = "#8471f2"; // Purple
-    else if (task.status === "done") statusColor = "#219c90";  // Green
-
-    taskDiv.innerHTML = `
-      <span>${task.title}</span>
-      <span style="margin-left:auto; color:${statusColor}; font-size:15px;">●</span>
-    `;
-
-    // Click to edit
-    taskDiv.addEventListener("click", () => setUpdateTaskValues(task.id));
-
-    // Drag start
-    taskDiv.addEventListener("dragstart", (e) => e.dataTransfer.setData("text/plain", task.id));
-
-    // Append to correct column
-    if (task.status === "todo") todoContainer.appendChild(taskDiv);
-    else if (task.status === "doing") doingContainer.appendChild(taskDiv);
-    else if (task.status === "done") doneContainer.appendChild(taskDiv);
+    switch (task.status) {
+      case "todo":
+        todoContainer.appendChild(taskDiv);
+        break;
+      case "doing":
+        doingContainer.appendChild(taskDiv);
+        break;
+      case "done":
+        doneContainer.appendChild(taskDiv);
+        break;
+    }
   });
 
-  updateTaskCounts();
-  localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
+  // Update column headers count
+  document.getElementById("toDoText").innerText = `TODO (${tasks.filter(t => t.status === "todo").length})`;
+  document.getElementById("doingText").innerText = `DOING (${tasks.filter(t => t.status === "doing").length})`;
+  document.getElementById("doneText").innerText = `DONE (${tasks.filter(t => t.status === "done").length})`;
 }
 
 // ========================
-// Drag & Drop
-// ========================
-let draggedTask = null;
-
-function setupDragAndDrop() {
-  const columns = document.querySelectorAll(".tasks-container");
-
-  columns.forEach(col => {
-    col.addEventListener("dragover", (e) => { e.preventDefault(); col.classList.add("drag-over"); });
-    col.addEventListener("dragleave", () => col.classList.remove("drag-over"));
-    col.addEventListener("drop", (e) => {
-      e.preventDefault();
-      col.classList.remove("drag-over");
-      const taskId = e.dataTransfer.getData("text/plain");
-      const task = tasks.find(t => t.id == taskId);
-      const newStatus = col.id.replace("-tasks", "");
-      if (task && task.status !== newStatus) { task.status = newStatus; renderTasks(); }
-    });
-  });
-}
-
-// ========================
-// Update Task Counts
-// ========================
-function updateTaskCounts() {
-  document.getElementById("toDoText").textContent = `TODO (${tasks.filter(t => t.status==="todo").length})`;
-  document.getElementById("doingText").textContent = `DOING (${tasks.filter(t => t.status==="doing").length})`;
-  document.getElementById("doneText").textContent = `DONE (${tasks.filter(t => t.status==="done").length})`;
-}
-
-// ========================
-// Modals
+// Add Task
 // ========================
 function openAddTaskModal() {
-  document.getElementById("add-task-title").value = "";
-  document.getElementById("add-task-title").placeholder = "Enter task title";
-  document.getElementById("add-task-description").value = "";
-  document.getElementById("add-task-description").placeholder = "Enter task description";
-  document.getElementById("add-task-status").value = "todo";
-  addTaskModalEl.showModal();
+  addTaskModal.showModal();
 }
 
-function closeModal() {
-  addTaskModalEl.close();
-  editTaskModalEl.close();
-}
-
-function setUpdateTaskValues(taskId) {
-  currentTask = tasks.find(t => t.id === Number(taskId));
-  if (!currentTask) return;
-
-  document.getElementById("edit-task-title").value = currentTask.title;
-  document.getElementById("edit-task-title").placeholder = "Edit task title";
-  document.getElementById("edit-task-description").value = currentTask.description || "";
-  document.getElementById("edit-task-description").placeholder = "Edit task description";
-  document.getElementById("edit-task-status").value = currentTask.status;
-
-  editTaskModalEl.showModal();
-}
-
-// ========================
-// Task Operations
-// ========================
-function addTask() {
-  const title = document.getElementById("add-task-title").value;
-  if(!title){ alert("Please enter a task title"); return; }
-
+async function addTask() {
   const newTask = {
-    id: tasks.length>0 ? Math.max(...tasks.map(t=>t.id))+1 : 1,
-    title,
-    description: document.getElementById("add-task-description").value,
-    status: document.getElementById("add-task-status").value
+    title: addTaskTitle.value,
+    description: addTaskDescription.value,
+    priority: addTaskPriority.value,
+    dueDate: addTaskDueDate.value,
+    status: addTaskStatus.value
   };
 
-  tasks.push(newTask);
-  renderTasks();
-  closeModal();
-}
-
-function updateTask() {
-  if(!currentTask) return;
-  const newTitle = document.getElementById("edit-task-title").value;
-  if(!newTitle){ alert("Task title cannot be empty"); return; }
-
-  currentTask.title = newTitle;
-  currentTask.description = document.getElementById("edit-task-description").value;
-  currentTask.status = document.getElementById("edit-task-status").value;
-
-  renderTasks();
-  closeModal();
-}
-
-function deleteTask() {
-  if(!currentTask) return;
-  if(confirm("Are you sure you want to delete this task?")) {
-    tasks = tasks.filter(t => t.id !== currentTask.id);
-    renderTasks();
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newTask)
+    });
     closeModal();
+    clearAddTaskForm();
+    fetchTasksFromAPI();
+  } catch (error) {
+    console.error("Error adding task:", error);
+  }
+}
+
+function clearAddTaskForm() {
+  addTaskTitle.value = "";
+  addTaskDescription.value = "";
+  addTaskPriority.value = "medium";
+  addTaskDueDate.value = "";
+  addTaskStatus.value = "todo";
+}
+
+// ========================
+// Edit Task
+// ========================
+function openEditTaskModal(task) {
+  currentEditTaskId = task.id;
+  editTaskTitle.value = task.title;
+  editTaskDescription.value = task.description;
+  editTaskPriority.value = task.priority;
+  editTaskDueDate.value = task.dueDate;
+  editTaskStatus.value = task.status;
+
+  editTaskModal.showModal();
+}
+
+async function updateTask() {
+  const updatedTask = {
+    title: editTaskTitle.value,
+    description: editTaskDescription.value,
+    priority: editTaskPriority.value,
+    dueDate: editTaskDueDate.value,
+    status: editTaskStatus.value
+  };
+
+  try {
+    await fetch(`${API_URL}/${currentEditTaskId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedTask)
+    });
+    closeModal();
+    fetchTasksFromAPI();
+  } catch (error) {
+    console.error("Error updating task:", error);
+  }
+}
+
+async function deleteTask() {
+  try {
+    await fetch(`${API_URL}/${currentEditTaskId}`, {
+      method: "DELETE"
+    });
+    closeModal();
+    fetchTasksFromAPI();
+  } catch (error) {
+    console.error("Error deleting task:", error);
   }
 }
 
 // ========================
-// Sidebar Functions
+// Sidebar & Modals
 // ========================
+function closeModal() {
+  editTaskModal.close();
+  addTaskModal.close();
+  topModal.close();
+}
+
+function openTopModal() {
+  topModal.showModal();
+}
+
 function hideSidebar() {
-  document.getElementById("side-bar-div").style.display="none";
-  document.getElementById("show-sidebar-btn").style.display="flex";
+  document.getElementById("side-bar-div").style.display = "none";
+  document.getElementById("show-sidebar-btn").style.display = "block";
 }
 
 function showSidebar() {
-  document.getElementById("side-bar-div").style.display="flex";
-  document.getElementById("show-sidebar-btn").style.display="none";
+  document.getElementById("side-bar-div").style.display = "flex";
+  document.getElementById("show-sidebar-btn").style.display = "none";
 }
 
 // ========================
-// Theme Toggle
+// Dark/Light Theme Toggle
 // ========================
 function toggleTheme() {
-  const body = document.body;
-  const isDark = body.classList.toggle("dark-theme");
-  localStorage.setItem("kanban-theme", isDark ? "dark":"light");
+  document.body.classList.toggle("dark-theme");
 }
 
 // ========================
-// Initialize on DOM Load
+// Initialize
 // ========================
-document.addEventListener("DOMContentLoaded", initializeBoard);
+fetchTasksFromAPI();
