@@ -55,3 +55,7 @@ The app allows users to:
 
 ### Prerequisites
 - Node.js and npm installed on your system.
+
+### Links for my presentation and Netifly deployment link
+-https://www.veed.io/view/2653b491-c1c6-4e1b-9ccc-1334e5f9d586?panel=share
+-https://app.netlify.com/projects/chimerical-llama-41e831/
